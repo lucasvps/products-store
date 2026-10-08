@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
+import { UserController } from './users/user.controller.js';
+import { UserRepository } from './users/user.repository.js';
+import { UsersModule } from './users/users.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
-  imports: [],
+  imports: [UsersModule],
 })
 
 export class AppModule { }
