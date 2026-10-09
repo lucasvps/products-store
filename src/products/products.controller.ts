@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import { ProductDto } from "./product.dto.js";
+import { CreateProductDto, ProductDto } from "./dto/product.dto.js";
 import { IProductRepository } from "./product.repository.js";
 
 @Controller('/products')
@@ -7,7 +7,7 @@ export class ProductsController {
     constructor(private readonly productRepository: IProductRepository) { }
 
     @Post()
-    async createProduct(@Body() product: ProductDto) {
+    async createProduct(@Body() product: CreateProductDto) {
         return this.productRepository.addProduct(product)
     }
 

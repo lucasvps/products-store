@@ -1,14 +1,19 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { ProductDto } from "./product.dto.js";
+import { CreateProductDto, ProductDto } from "./dto/product.dto.js";
+import { randomUUID } from "crypto";
 
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
-
     private _products: ProductDto[] = []
 
-    async addProduct(product: ProductDto): Promise<ProductDto> {
-        product.id = (this._products.length + 1).toString();
+    async addProduct(productData: CreateProductDto): Promise<ProductDto> {
+        const product: ProductDto = {
+            ...productData,
+            id: randomUUID(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        };
 
         this._products.push(product)
 
@@ -32,7 +37,7 @@ export class ProductRepository implements IProductRepository {
 
 
 export abstract class IProductRepository {
-    abstract addProduct(product: ProductDto): Promise<ProductDto>;
+    abstract addProduct(product: CreateProductDto): Promise<ProductDto>;
 
     abstract fetchProducts(): Promise<ProductDto[]>;
 
