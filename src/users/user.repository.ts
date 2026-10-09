@@ -1,20 +1,20 @@
 import { Injectable } from "@nestjs/common";
-import { UserDto } from "./user.dto.js";
+import { CreateUserDto } from "./dto/create_user.dto.js";
 
 @Injectable()
 export class UserRepository implements IUsersRepository {
-    private users: UserDto[] = [];
+    private users: CreateUserDto[] = [];
 
-    async save(user: UserDto): Promise<void> {
+    async save(user: CreateUserDto): Promise<void> {
         this.users.push(user)
     }
 
-    async fetch(): Promise<UserDto[]> {
+    async fetch(): Promise<CreateUserDto[]> {
         return this.users
     }
 }
 
 export abstract class IUsersRepository {
-    abstract save(user: UserDto): Promise<void>;
-    abstract fetch(): Promise<UserDto[]>;
+    abstract save(user: CreateUserDto): Promise<void>;
+    abstract fetch(): Promise<CreateUserDto[]>;
 }
