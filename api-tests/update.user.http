@@ -1,0 +1,8 @@
+PATCH http://localhost:3000/users/80f8609a-7085-4678-b55e-e4383b4bfef9
+Content-Type: application/json
+
+{
+    "name": "Lucao",
+    "password": "controles843"
+}
+

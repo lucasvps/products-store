@@ -2,6 +2,7 @@ POST http://localhost:3000/products
 Content-Type: application/json
 
 {
+    "userId": "d20e9b4a-cc89-4ecf-8074-51a41316be53",
     "name": "Figura de ação Marvel Homem Aranha Olympus Homem Aranha E6358 de Hasbro Classic",
     "value": 70.0,
     "amountAvailable": 10,
