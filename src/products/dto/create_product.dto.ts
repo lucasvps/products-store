@@ -1,8 +1,13 @@
 import { Injectable } from "@nestjs/common"
 import { Type } from "class-transformer"
 import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsPositive, MaxLength, Min, ValidateNested } from "class-validator"
+import { IsValidUser } from "../../users/validator/user_exists.validator.js"
 
 export class CreateProductDto {
+    @IsNotEmpty()
+    @IsValidUser({message: 'This user is not valid'})
+    userId: string
+
     @IsNotEmpty()
     name: string
 
@@ -50,15 +55,3 @@ export class ImageDto {
     description: string
 } 
 
-export class ProductDto {
-    id: string
-    name: string
-    value: number
-    amountAvailable: number
-    description: string
-    category: string
-    characteristics: CharacteristicsDto[]
-    images: ImageDto[]
-    createdAt: Date
-    updatedAt: Date
-}

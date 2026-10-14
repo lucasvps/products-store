@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import { CreateProductDto, ProductDto } from "./dto/product.dto.js";
+import { CreateProductDto } from "./dto/create_product.dto.js";
 import { IProductRepository } from "./product.repository.js";
+import { ProductEntity } from "./product.entity.js";
 
 @Controller('/products')
 export class ProductsController {
@@ -12,7 +13,7 @@ export class ProductsController {
     }
 
     @Get()
-    async fetchProducts(): Promise<ProductDto[]> {
+    async fetchProducts(): Promise<ProductEntity[]> {
         return this.productRepository.fetchProducts();
     }
 
