@@ -1,6 +1,11 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, NotFoundException, Param, Patch, Post } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create_user.dto.js";
-import { IUsersRepository, UserRepository } from "./user.repository.js";
+import { IUsersRepository } from "./user.repository.js";
+import { UserEntity } from "./user.entity.js";
+import { randomUUID } from "crypto";
+import { FetchUsersResponseDto, UserResponseDto } from "./dto/fetch_users.dto.js";
+import { toUnicode } from "punycode";
+import { UpdateUserDto } from "./dto/update_user.dto.js";
 
 @Controller('/users')
 export class UserController {
@@ -10,19 +15,35 @@ export class UserController {
 
     @Post()
     async createUser(@Body() user: CreateUserDto) {
-        await this.userRepository.save(user)
+        const userEntity: UserEntity = {
+            ...user,
+            id: randomUUID(),
+        };
+
+        await this.userRepository.save(userEntity)
 
         return {
-            "message": "User created succesfully", "data": user
+            "message": "User created succesfully", "data": new UserResponseDto(userEntity),
         }
     }
 
     @Get()
-    async getUsers() {
-        const users = await this.userRepository.fetch()
+    async getUsers(): Promise<FetchUsersResponseDto> {
+        const data = await this.userRepository.fetch()
+
+        return new FetchUsersResponseDto(data);
+    }
+
+    @Patch('/:id')
+    async updateUser(@Param('id') id: string, @Body() data: UpdateUserDto) {
+        const updateUser = await this.userRepository.updateUser(id, data)
+
+        if (updateUser === undefined) {
+            throw new NotFoundException();
+        }
 
         return {
-            "data": users
+            "message": "User update succesfully", "data": updateUser,
         }
     }
 }
