@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create_user.dto.js";
 import { IUsersRepository } from "./user.repository.js";
 import { UserEntity } from "./user.entity.js";
@@ -36,7 +36,7 @@ export class UserController {
 
     @Patch('/:id')
     async updateUser(@Param('id') id: string, @Body() data: UpdateUserDto) {
-        const updateUser = await this.userRepository.updateUser(id, data)
+        const updateUser = await this.userRepository.update(id, data)
 
         if (updateUser === undefined) {
             throw new NotFoundException();
@@ -44,6 +44,19 @@ export class UserController {
 
         return {
             "message": "User update succesfully", "data": updateUser,
+        }
+    }
+
+    @Delete('/:id')
+    async deleteUser(@Param('id') id: string) {
+        const deletedUser = await this.userRepository.delete(id)
+
+        if (deletedUser === undefined) {
+            throw new NotFoundException();
+        }
+
+        return {
+            "message": "User deleted succesfully", "data": deletedUser,
         }
     }
 }

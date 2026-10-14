@@ -1,0 +1,3 @@
+DELETE http://localhost:3000/users/eddcc708-8b65-4beb-8a05-d6e4097f2d73
+Content-Type: application/json
+
